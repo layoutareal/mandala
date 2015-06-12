@@ -1,0 +1,59 @@
+$d: 0.5em;
+$n: 255;
+
+body {
+  background: #000;
+}
+
+
+.box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 0;
+  width: 0;
+  backface-visibility: hidden;
+  animation: rotate 20000ms linear infinite;    
+}
+
+.part {
+  position: absolute;
+  top: $d;
+  left: $d;
+  margin: -$d*15;
+  border-radius: 100%;
+  width: $d * 30;
+  height: $d * 30;
+  box-sizing: border-box;
+  box-shadow: 0 0 1em 0 rgba(0,0,0,0.2) inset;
+  backface-visibility: hidden;
+  animation: scale 8000ms linear infinite;
+  
+  @for $i from 0 to $n {
+    $r : $d/5 - $i*($d/10);
+    $x : $r*cos($i);
+    $y : $r*sin($i);
+      
+    &:nth-child(#{$i + 1}) {
+      top: $y;
+      left: $x;
+      background: hsla($i * 3deg, 
+                       100%, 
+                       100% - 100%/255*$i,
+                       0.1);
+    }
+  }
+}
+
+
+@keyframes scale { 
+  50% {
+    transform: scale(0.25); 
+  } 
+}
+@keyframes rotate { 
+  100% { 
+    transform: rotate(360deg);
+    filter: hue-rotate(360deg); 
+  } 
+}
